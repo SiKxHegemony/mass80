@@ -1,0 +1,24 @@
+# mass80d as a systemd USER service. NOT installed by this file's presence; see docs/runbook.md.
+# No sandboxing (PrivateTmp, ProtectHome, ProtectSystem and the like) on purpose: it has not
+# been tested against wtype, playerctl and the Firefox art directory, and a wrong guess
+# would silently break actions.
+[Unit]
+Description=Mass80 screen daemon (mass80d)
+After=graphical-session.target
+PartOf=graphical-session.target
+StartLimitIntervalSec=300
+StartLimitBurst=10
+
+[Service]
+Type=simple
+WorkingDirectory=/home/shane/Repos/mass80
+Environment=PYTHONPATH=src
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/shane/Repos/mass80/.venv/bin/python -B -m mass80d --config configs/daily.toml --log-level WARNING
+Restart=on-failure
+RestartSec=10
+RestartPreventExitStatus=3
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=graphical-session.target

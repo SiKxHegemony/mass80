@@ -1,0 +1,146 @@
+# mass80d example configuration. Copy to ~/.config/mass80/config.toml yourself;
+# nothing in this repo writes there. Values shown are the built-in defaults, and a
+# test asserts this file parses to exactly the defaults.
+
+[volume]
+# volume.value from the device is an ABSOLUTE slider position (not a delta).
+# 781 values across all captures span 0-98 and the vendor SDK range is 0-100
+# (docs/protocol.md 3.3). The resulting fraction is always clamped to 0-1.
+min = 0
+max = 100
+# Minimum seconds between wpctl launches (the device sends ~10 events/s; the
+# latest value is coalesced).
+min_interval = 0.15
+sink = "@DEFAULT_AUDIO_SINK@"
+# The slider 0-100 is RESCALED onto system volume 0..max_fraction, so this is also a
+# hard ceiling: no `wpctl set-volume` argument ever exceeds it. The slider is absolute
+# and the first touch of a gesture can jump straight to its position, so this limits
+# the worst case. 1.0 means no cap. 0 < x <= 1.0.
+max_fraction = 0.5
+
+[music]
+# "separate": music_play -> `playerctl play`, music_pause -> `playerctl pause`
+# "toggle":   both -> `playerctl play-pause`
+mode = "separate"
+# Which player the music screen shows and the play/pause/next/previous buttons control
+# (names match by prefix: "firefox" matches "firefox.instance_1_53"). A player that is
+# Playing always wins; among equals, listed players come first in this order, then
+# unlisted players alphabetically. If nothing is playing, the last one that played stays.
+# Unlisted players are NOT ignored: any app with a media session can appear.
+players = ["spotify", "firefox"]
+
+[light]
+# What `light` controls is UNKNOWN. Only "log" (no-op) is accepted.
+action = "log"
+
+# send_key bindings. Default for every key is log-only (harmless: these keys are
+# sent by touching an on-screen key page). type = "log" | "hyprctl" | "playerctl" | "key";
+# args are passed as an argument list (no shell). Example, commented out:
+#
+# [keys."Page Up"]
+# type = "hyprctl"
+# args = ["workspace", "e-1"]
+#
+# type = "key" injects ONE press-and-release through `wtype -k <keysym>`. Only these
+# nine keysyms are ever allowed: Print, Scroll_Lock, Pause, Insert, Home, Prior,
+# Delete, End, Next. If keysym is omitted the default for the device key is used
+# (Print->Print, Scroll->Scroll_Lock, Pause->Pause, Insert->Insert, Home->Home,
+# Page Up->Prior, Delete->Delete, End->End, Page Down->Next; INFERRED, not observed).
+# Only the nine device key names may use type = "key". Commented out:
+#
+# [keys."Page Up"]
+# type = "key"
+# keysym = "Prior"
+[keys]
+# Minimum seconds between two accepted injections of the same key; a repeat inside
+# the window is dropped and logged. Must be > 0.
+debounce = 0.25
+
+[keys.Print]
+type = "log"
+[keys.Scroll]
+type = "log"
+[keys.Pause]
+type = "log"
+[keys.Insert]
+type = "log"
+[keys.Home]
+type = "log"
+[keys."Page Up"]
+type = "log"
+[keys.Delete]
+type = "log"
+[keys.End]
+type = "log"
+[keys."Page Down"]
+type = "log"
+
+[replies]
+# get_time reply: verified on hardware.
+reply_get_time = true
+# These two frame shapes are INFERRED from disassembly and have never been sent
+# to the device. Leave disabled until Shane tests them on hardware.
+reply_get_performance = false
+# (reply_get_performance needs no other setting: the [performance] section below is optional.)
+reply_get_music_info = false
+# Answer the device's bare {"action":"volume"} query with the host volume (percent of
+# max_fraction). Frame INFERRED from disassembly, NEVER sent to the device. Reads the
+# volume with the read-only `wpctl get-volume` (also with --no-actions). Default off.
+volume_query = false
+
+# get_cover: the screen asks for album art once per track change. Frame INFERRED from
+# disassembly (docs/cover-decode.md), NEVER sent to the device. Default off.
+# Turning it on makes the daemon fetch images from the [cover] hosts below (an EXTERNAL
+# network request, https only) and read local files only from [cover] local_dirs.
+get_cover = false
+
+[cover]
+# All of these are INFERRED and never sent to the device. Only used when get_cover = true.
+# Hosts the daemon may fetch art from (exact host match, https, no redirects).
+hosts = ["i.scdn.co"]
+# Directories (absolute) that file: art URLs may be read from; empty = no local file is read.
+local_dirs = []
+# Edge of the square cover, 1-480 (always this size, whatever was asked). 480 is the
+# default: the screen's Dark theme cover is 480x480 (Stages 11a/11b, on hardware). 240 is
+# the SDK's size; 240 / 240 / 240 (size, canvas_width, canvas_height) still works. `size`
+# must not exceed the canvas below.
+size = 480
+# JPEG quality 1-100.
+quality = 60
+# Size of the JPEG actually sent, 1-480 each. 480 x 480 = square, equal to size, no grey
+# fill. A canvas larger than size puts the size x size box in the middle with grey around
+# it (for example size 240 on 480 x 240). `size` must not exceed either value.
+canvas_width = 480
+canvas_height = 480
+# Flat grey (0-255) filling the canvas around the cover box. INFERRED, tune by eye.
+fill_grey = 32
+# Seconds allowed for one image fetch (> 0, <= 10).
+fetch_timeout_s = 3.0
+# Seconds a request waits for art still being fetched before the failure reply (> 0, <= 10).
+wait_s = 3.0
+# Answer a failed or missing cover with the SDK failure shape (image_data "null").
+reply_null = true
+# Stage 9b only: answer with this fixed JPEG (path relative to the current directory,
+# .jpg/.jpeg) and never use the network. Empty = off.
+test_image = ""
+# With test_image set: answer at most this many requests (0 = unlimited, max 100).
+test_max_replies = 1
+
+[performance]
+# The get_performance reader (memory, CPU %, CPU frequency, CPU temperature, network
+# up/down). Only used when [replies] reply_get_performance = true. It reads /proc and /sys
+# only (read-only; no network, no subprocess). The frame shape and the units (percent,
+# degrees C, MHz, KB/s) are INFERRED and were never sent to the device.
+# Network interfaces to count (at most 8 names, 1-15 characters of A-Z a-z 0-9 _ . : -).
+# Empty = the interface of the default route, found from /proc/net/route.
+interfaces = []
+# Answer at most this many get_performance polls (counting frames actually SENT), then stop
+# answering. 0 = unlimited, max 100. For the single-frame stage (1), see
+# configs/stage12a-performance.toml.
+max_replies = 0
+
+[serial]
+# Reconnect if NO BYTES at all arrive for this many seconds. Firmware debug text
+# counts as data, so this is not tied to poll events (the device stops polling for
+# long stretches). Largest gap seen in the captures: 4.71 s. Must be > 0.
+silence_timeout = 10.0

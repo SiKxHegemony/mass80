@@ -1,0 +1,14 @@
+# Stage 7 (player selection and priority) of docs/plans/2026-10-09-player-priority.md.
+# Differs from the built-in defaults in ONE value: replies.reply_get_music_info = true
+# (default false); [music] players is the default list, written out. The selection (which
+# player the screen shows and the four buttons control) is UNVERIFIED on hardware: run it
+# only with Shane watching the screen, headset off. Reads are read-only (`playerctl -a
+# metadata`); the buttons run `playerctl -p <exact instance> ...` only without --no-actions.
+# Unlisted players are lowest priority, NOT ignored: any app with a media session can show.
+# Volume and keys stay as in the defaults.
+
+[replies]
+reply_get_music_info = true
+
+[music]
+players = ["spotify", "firefox"]

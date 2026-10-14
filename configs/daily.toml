@@ -1,0 +1,75 @@
+# mass80d daily configuration: the always-on setup used by systemd/mass80d.service.
+#
+# WHAT THIS DOES WHEN IT RUNS (nobody is watching it):
+#   - WRITES to the device (replies to get_time, get_music_info, get_cover,
+#     get_performance and the volume query).
+#   - RUNS system commands: `wpctl set-volume` (the slider is rescaled onto 0..1.0 of the
+#     system volume: slider 100 = system 100%, NO cap; was 0.5 until Shane asked) and `playerctl` (play, pause, next,
+#     previous), and `wtype` injects the nine device keys' keystrokes (Stage 4c, enabled 2026-10-14).
+#   - Makes EXTERNAL network requests to i.scdn.co (https only, no redirects) on track
+#     changes, to fetch cover art.
+#   - READS local files from ONE directory only: /home/shane/.zen/firefox-mpris
+#   - Reads /proc and /sys for the performance page (read-only).
+#
+# KILL SWITCH: systemctl --user stop mass80d
+#
+# Verified on hardware by stage: 3b/3c volume, 5/5b/7 music, 6a music info,
+# 11a/11b covers, 12a/12b performance. Key bindings (Stage 4c) were never run, so they
+# are not changed here. Everything not listed below is the built-in default; a test
+# asserts that.
+
+[replies]
+reply_get_time = true
+reply_get_music_info = true
+get_cover = true
+reply_get_performance = true
+volume_query = true
+
+[volume]
+max_fraction = 1.0
+
+[music]
+players = ["spotify", "firefox"]
+
+[cover]
+local_dirs = ["/home/shane/.zen/firefox-mpris"]
+size = 480
+canvas_width = 480
+canvas_height = 480
+
+[performance]
+max_replies = 0
+
+# Stage 4c (2026-10-14, Shane approved): each device key injects its default keysym with wtype.
+# Print -> Print (Hyprland also binds Print to its screenshot), Scroll -> Scroll_Lock, Pause -> Pause,
+# Insert -> Insert, Home -> Home, Page Up -> Prior, Delete -> Delete, End -> End, Page Down -> Next.
+# A key press in a text field will type or edit (Insert, Delete, Home, End, Page keys do that).
+[keys]
+debounce = 0.25
+
+[keys.Print]
+type = "key"
+
+[keys.Scroll]
+type = "key"
+
+[keys.Pause]
+type = "key"
+
+[keys.Insert]
+type = "key"
+
+[keys.Home]
+type = "key"
+
+[keys."Page Up"]
+type = "key"
+
+[keys.Delete]
+type = "key"
+
+[keys.End]
+type = "key"
+
+[keys."Page Down"]
+type = "key"

@@ -1,0 +1,9 @@
+# Stage 6a (get_music_info reply) of docs/plans/2026-10-09-get-music-info.md.
+# Differs from the built-in defaults in ONE value: replies.reply_get_music_info = true
+# (default false). The reply frame is INFERRED from disassembly (SDK-exact, alphabetical
+# keys, integer ms) and has NEVER been sent to the device: run it only with Shane watching
+# the screen, headset off. Reads are read-only (`playerctl metadata`, default player).
+# Volume, music transport and keys stay as in the defaults.
+
+[replies]
+reply_get_music_info = true

@@ -1,0 +1,15 @@
+# mass80d stage 12b: get_performance with NO frame limit (a longer run). Stage 12a (one frame)
+# was verified on hardware 2026-10-09: the six fields, units (percent, MHz, degrees C, KB/s) and
+# bars were right; the CPU clock bar was about 80% full at 3897 MHz (its full scale is fixed in
+# the screen's firmware and not known; the SDK sends raw MHz). The daemon reads /proc and /sys
+# only (no network, no subprocess). Run with --no-actions, headset off, screen on its
+# performance page, then put the machine under load (compile, download) and watch:
+#   python -m mass80d --config configs/stage12b-performance-run.toml --no-actions
+# One frame per poll (about every 3 s); the first poll only takes the baseline sample.
+# No other reply (music, cover) is enabled here.
+
+[replies]
+reply_get_performance = true
+
+[performance]
+max_replies = 0

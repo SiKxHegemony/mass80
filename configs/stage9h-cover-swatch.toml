@@ -1,0 +1,18 @@
+# mass80d stage 9h: ONE watched write of a SWATCH picture (not a cover), 480x240.
+# Eight vertical stripes, 60 px wide, labelled A to H top and bottom, each a slightly different
+# dark grey, so Shane can pick the one that matches the screen's own dark-grey bands above and
+# below the cover (the fill hue/brightness question). Stripe colours (R,G,B):
+#   A 49,49,49  B 49,51,56  C 54,57,63  D 52,48,50  E 50,46,52  F 46,48,58  G 56,50,50  H 43,45,49
+# The daemon answers the first get_cover request with configs/assets/cover-swatch-480x240.jpg
+# (about 12.2 KB as a frame) and then nothing more (test_max_replies = 1). No network, no art
+# fetch, no magick. A 480x240 image of this kind was drawn in stage 9e.
+# Run from the repo root, with --no-actions, headset off:
+#   python -m mass80d --config configs/stage9h-cover-swatch.toml --no-actions
+
+[replies]
+reply_get_music_info = true
+get_cover = true
+
+[cover]
+test_image = "configs/assets/cover-swatch-480x240.jpg"
+test_max_replies = 1

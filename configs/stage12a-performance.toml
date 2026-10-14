@@ -1,0 +1,15 @@
+# mass80d stage 12a: ONE get_performance frame. INFERRED shape, NEVER sent to the device.
+# The frame has six int32 fields (memory_usage, cpu_usage, cpu_freq, cpu_temp, net_upload,
+# net_download); the units (percent, degrees C, MHz, KB/s) are GUESSES. The daemon reads
+# /proc and /sys only (no network, no subprocess). Run with --no-actions, headset off, with
+# the screen on its performance page:
+#   python -m mass80d --config configs/stage12a-performance.toml --no-actions
+# The reader needs two samples, so the first frame goes out on the SECOND poll. After that
+# one frame the daemon answers no more get_performance polls (max_replies = 1).
+# No other reply (music, cover) is enabled here.
+
+[replies]
+reply_get_performance = true
+
+[performance]
+max_replies = 1

@@ -1,0 +1,21 @@
+# mass80d stage 11a: real cover art at 480x480. INFERRED, never sent with real art.
+# The cover is 480x480 with NO grey fill and no side bands; the screen's Dark theme cover
+# element is 480x480 at (0,0). The Stage 9n test picture (480x480) was drawn whole but
+# loaded offset and glitched for about a second.
+# This makes the daemon (a) FETCH images from https://i.scdn.co (an EXTERNAL network request,
+# no redirects, 3 s limit) and (b) READ local files from ONE directory only:
+# /home/shane/.zen/firefox-mpris. Images are resized with magick to 480x480 and cached in
+# memory. Run with --no-actions, headset off:
+#   python -m mass80d --config configs/stage11a-cover-480.toml --no-actions
+# Skip through 3 to 5 tracks and note for each whether the cover loads centred, offset,
+# or glitches.
+
+[replies]
+reply_get_music_info = true
+get_cover = true
+
+[cover]
+local_dirs = ["/home/shane/.zen/firefox-mpris"]
+size = 480
+canvas_width = 480
+canvas_height = 480

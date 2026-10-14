@@ -1,0 +1,17 @@
+# mass80d stage 9c: real cover art for the current track. INFERRED, never sent to the device.
+# This makes the daemon (a) FETCH images from https://i.scdn.co (an EXTERNAL network request,
+# no redirects, 3 s limit) and (b) READ local files from ONE directory only:
+# /home/shane/.zen/firefox-mpris. Images are resized with magick to 240x240 and cached in
+# memory. Run with --no-actions, headset off:
+#   python -m mass80d --config configs/stage9c-cover-art.toml --no-actions
+
+[replies]
+reply_get_music_info = true
+get_cover = true
+
+[cover]
+local_dirs = ["/home/shane/.zen/firefox-mpris"]
+# The built-in default is now 480x480; this past stage keeps its meaning: real art at 240x240.
+size = 240
+canvas_width = 240
+canvas_height = 240

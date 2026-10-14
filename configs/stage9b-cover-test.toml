@@ -1,0 +1,16 @@
+# mass80d stage 9b: ONE watched write of a KNOWN TEST PICTURE (not a cover).
+# The daemon answers the first get_cover request with the fixed 240x240 JPEG
+# configs/assets/cover-test-240.jpg (about 15.8 KB as a frame) and then nothing more
+# (test_max_replies = 1). No network, no art fetch, no magick. The frame is INFERRED
+# from disassembly and has NEVER been sent to the device.
+# Run from the repo root (the image path is relative to the current directory), with
+# --no-actions, headset off, Spotify playing:
+#   python -m mass80d --config configs/stage9b-cover-test.toml --no-actions
+
+[replies]
+reply_get_music_info = true
+get_cover = true
+
+[cover]
+test_image = "configs/assets/cover-test-240.jpg"
+test_max_replies = 1

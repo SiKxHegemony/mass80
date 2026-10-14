@@ -1,0 +1,26 @@
+# mass80d stage 9m: ONE watched write of a SIXTH SWATCH picture (not a cover), 480x240.
+# Round 6 of the fill-colour match, encoded THE REAL WAY: JPEG quality 60, default 4:2:0 chroma
+# (the production cover path), so what Shane sees is what real covers get. Rounds 1 to 5 were
+# encoded at quality 95 / 4:4:4, which does not shift colours; quality 60 shifts a flat tinted
+# colour by 1 to 2 levels, so each stripe here STORES a compensated colour chosen so that it
+# DECODES close to the target. Shane's pick from round 5: D (51,48,51) and H (51,49,50), still
+# slightly too light. Six stripes, 80 px wide, labelled A to F top and bottom.
+# stripe: wanted decoded colour -> stored colour -> measured decoded colour (my offline sweep)
+#   A (51,49,50) -> (49,50,49) -> (50,50,50)   NOTE: A and E store the same colour (a limit of q60)
+#   B (50,48,49) -> (49,47,47) -> (51,47,48)
+#   C (50,47,50) -> (47,45,47) -> (50,45,51)
+#   D (51,48,51) -> (49,47,49) -> (51,46,52)
+#   E (50,48,50) -> (49,50,49) -> (50,50,50)
+#   F (49,47,49) -> (47,48,47) -> (48,48,48)
+# The daemon answers the first get_cover request with configs/assets/cover-swatch6-480x240.jpg and
+# then nothing more (test_max_replies = 1). No network, no art fetch, no magick.
+# Run from the repo root, with --no-actions, headset off, then skip to a new track:
+#   python -m mass80d --config configs/stage9m-cover-swatch6.toml --no-actions
+
+[replies]
+reply_get_music_info = true
+get_cover = true
+
+[cover]
+test_image = "configs/assets/cover-swatch6-480x240.jpg"
+test_max_replies = 1

@@ -1,0 +1,20 @@
+# mass80d stage 9j: ONE watched write of a THIRD SWATCH picture (not a cover), 480x240.
+# Round 3 of the fill-colour match. Round 1 (9h): G (56,50,50) closest but a little too light.
+# Round 2 (9i): H (48,43,45) closest in hue but too dark. This round lies BETWEEN them. Eight
+# stripes, 60 px wide, labelled A to H top and bottom (R,G,B):
+#   A 48,43,45 (= round 2's H, too dark)   H 56,50,50 (= round 1's G, too light)   the references
+#   B 50,45,47  C 51,46,47  D 52,47,48  E 53,47,48  F 52,46,49  G 51,45,48
+# NOTE: if the screen stores 16-bit colour (RGB565) several of these may look identical; the
+# vendor theme files suggest 16-bit but this is not confirmed for the live display.
+# The daemon answers the first get_cover request with configs/assets/cover-swatch3-480x240.jpg and
+# then nothing more (test_max_replies = 1). No network, no art fetch, no magick.
+# Run from the repo root, with --no-actions, headset off, then skip to a new track:
+#   python -m mass80d --config configs/stage9j-cover-swatch3.toml --no-actions
+
+[replies]
+reply_get_music_info = true
+get_cover = true
+
+[cover]
+test_image = "configs/assets/cover-swatch3-480x240.jpg"
+test_max_replies = 1

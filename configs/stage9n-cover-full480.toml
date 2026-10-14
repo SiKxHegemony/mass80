@@ -1,0 +1,19 @@
+# mass80d stage 9n: ONE watched write of a FULL-SCREEN TEST PICTURE (not a cover), 480x480.
+# Question: does the screen draw a 480x480 cover over the WHOLE screen (Shane's observation: the
+# placeholder is full screen until a swipe leaves it offset), instead of only the 480x240
+# middle section? The picture has four tinted quadrants, white lines at y=120/240/360 and x=240,
+# labels TL TR BL BR and y values, a RED border at the edge and a BLUE border 40 px inside.
+# Never sent before at this size; SDK caps the cover at 240, so this is an off-spec test.
+# Frame is about 8 KB, well under the sizes already accepted (26 KB).
+# The daemon answers the first get_cover request with configs/assets/cover-full-480x480.jpg and
+# then nothing more (test_max_replies = 1). No network, no art fetch, no magick.
+# Run from the repo root, with --no-actions, headset off, then skip to a new track:
+#   python -m mass80d --config configs/stage9n-cover-full480.toml --no-actions
+
+[replies]
+reply_get_music_info = true
+get_cover = true
+
+[cover]
+test_image = "configs/assets/cover-full-480x480.jpg"
+test_max_replies = 1

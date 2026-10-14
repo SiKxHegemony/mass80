@@ -1,0 +1,6 @@
+# Stage 3 (volume) of docs/plans/2026-10-09-mass80d-daemon-entrypoint.md.
+# Differs from the built-in defaults in ONE value: volume.max_fraction = 0.3 (default 0.5).
+# Music and keys stay log-only. Take the headphones off for the first run.
+
+[volume]
+max_fraction = 0.3

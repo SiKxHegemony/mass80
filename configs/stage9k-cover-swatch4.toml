@@ -1,0 +1,20 @@
+# mass80d stage 9k: ONE watched write of a FOURTH SWATCH picture (not a cover), 480x240.
+# Round 4 of the fill-colour match. Findings so far (Shane): round 1 neutral (49,49,49) looked
+# too green; every stripe with red 5-6 levels above green (rounds 1-3) looked too red or brown;
+# between the too-dark (48,43,45) and too-light (56,50,50) references the brightness target is
+# in between. This round keeps brightness near luma 47-49 and tries a SMALL red excess (0 to 3).
+# Eight stripes, 60 px wide, labelled A to H top and bottom (R,G,B):
+#   A 49,49,49 (neutral)  B 50,48,49  C 50,47,49  D 49,47,50  E 51,48,50  F 50,47,48
+#   G 49,46,49  H 52,49,51
+# The daemon answers the first get_cover request with configs/assets/cover-swatch4-480x240.jpg and
+# then nothing more (test_max_replies = 1). No network, no art fetch, no magick.
+# Run from the repo root, with --no-actions, headset off, then skip to a new track:
+#   python -m mass80d --config configs/stage9k-cover-swatch4.toml --no-actions
+
+[replies]
+reply_get_music_info = true
+get_cover = true
+
+[cover]
+test_image = "configs/assets/cover-swatch4-480x240.jpg"
+test_max_replies = 1

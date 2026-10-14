@@ -1,0 +1,18 @@
+# mass80d stage 9e: ONE watched write of a LABELLED GRID PICTURE (not a cover), 480x240.
+# Purpose: learn how the screen scales and places a non-square cover (the white sides, and
+# whether a wider image fills the middle section). The daemon answers the first get_cover
+# request with configs/assets/cover-grid-480x240.jpg (about 20.9 KB as a frame) and then
+# nothing more (test_max_replies = 1). No network, no art fetch, no magick. The frame is
+# INFERRED from disassembly; the 240x240 and 15.8 KB forms were drawn on the device in stage 9b,
+# a 480x240 image has NEVER been sent.
+# Run from the repo root (the image path is relative to the current directory), with
+# --no-actions, headset off, Spotify playing; skip to a NEW track so the screen asks:
+#   python -m mass80d --config configs/stage9e-cover-grid.toml --no-actions
+
+[replies]
+reply_get_music_info = true
+get_cover = true
+
+[cover]
+test_image = "configs/assets/cover-grid-480x240.jpg"
+test_max_replies = 1

@@ -1,0 +1,44 @@
+# Stage 4b (key injection into a safe window, e.g. a terminal running `wev`) of
+# docs/plans/2026-10-09-mass80d-daemon-entrypoint.md.
+# Differs from the built-in defaults in ONE way: all nine keys use type = "key" with
+# their default keysyms (the default is "log"). reply_get_time stays as in the defaults (true).
+# The device-name to keysym mapping is INFERRED, not observed; this stage checks it.
+
+[replies]
+reply_get_time = true
+
+[keys."Print"]
+type = "key"
+keysym = "Print"
+
+[keys."Scroll"]
+type = "key"
+keysym = "Scroll_Lock"
+
+[keys."Pause"]
+type = "key"
+keysym = "Pause"
+
+[keys."Insert"]
+type = "key"
+keysym = "Insert"
+
+[keys."Home"]
+type = "key"
+keysym = "Home"
+
+[keys."Page Up"]
+type = "key"
+keysym = "Prior"
+
+[keys."Delete"]
+type = "key"
+keysym = "Delete"
+
+[keys."End"]
+type = "key"
+keysym = "End"
+
+[keys."Page Down"]
+type = "key"
+keysym = "Next"

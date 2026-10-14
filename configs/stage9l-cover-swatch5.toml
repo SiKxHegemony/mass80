@@ -1,0 +1,20 @@
+# mass80d stage 9l: ONE watched write of a FIFTH SWATCH picture (not a cover), 480x240.
+# Round 5 of the fill-colour match. Round 4 (9k): H (52,49,51) was close but slightly lighter
+# than the screen's bands; A to F (luma 47 to 49) looked identical and too brown; G (49,46,49)
+# was almost black. Shane asked for slightly DARKER than H and +-1 tone changes either side.
+# Eight stripes, 60 px wide, labelled A to H top and bottom (R,G,B):
+#   A 52,49,51 (= round 4's H, for reference)  B 51,48,50 (slightly darker: the base)
+#   C 50,47,49 (darker again)  D 51,48,51 (more blue)  E 51,48,49 (less blue)
+#   F 52,48,50 (more red)  G 50,48,50 (less red)  H 51,49,50 (more green)
+# The daemon answers the first get_cover request with configs/assets/cover-swatch5-480x240.jpg and
+# then nothing more (test_max_replies = 1). No network, no art fetch, no magick.
+# Run from the repo root, with --no-actions, headset off, then skip to a new track:
+#   python -m mass80d --config configs/stage9l-cover-swatch5.toml --no-actions
+
+[replies]
+reply_get_music_info = true
+get_cover = true
+
+[cover]
+test_image = "configs/assets/cover-swatch5-480x240.jpg"
+test_max_replies = 1
